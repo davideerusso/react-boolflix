@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function SearchBar() {
@@ -12,7 +12,12 @@ export default function SearchBar() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+  };
 
+  const handleInputChange = (e) => {
+    setSearchFilms(e.target.value);
+  };
+  useEffect(() => {
     axios
       .get(
         `${apiUrl}/search/movie?api_key=c91cda683436ff534f3d600980a32b8a&language=it_IT&query=${searchfilms}`
@@ -20,13 +25,9 @@ export default function SearchBar() {
       .then((res) => {
         // const filmSearch = res.data.results;
         setFilms(res.data.results);
+        console.log(res.data.results);
       });
-    console.log(films);
-  };
-
-  const handleInputChange = (e) => {
-    setSearchFilms(e.target.value);
-  };
+  }, [searchfilms]);
 
   return (
     <>
@@ -43,8 +44,10 @@ export default function SearchBar() {
       </form>
       {films.map((film) => (
         <div>
-          {film.title}
-          <p></p>
+          <h2>{film.title}</h2>
+          <p>{film.original_title}</p>
+          <p>{film.original_language}</p>
+          <p>{film.vote_average}</p>
         </div>
       ))}
     </>
