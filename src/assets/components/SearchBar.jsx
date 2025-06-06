@@ -1,86 +1,89 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { useFilms } from "./FilmsContext";
 
-export default function SearchBar() {
-  const [searchfilms, setSearchFilms] = useState([]);
-  const [films, setFilms] = useState([]);
-  const [serietv, setSerietv] = useState([]);
-  const [all, setAll] = useState([]);
+// import axios from "axios";
 
-  const apiUrl = "https://api.themoviedb.org/3";
-  //   const apiKey = "c91cda683436ff534f3d600980a32b8a";
-  const query = searchfilms;
+export default function SearchBar({ allItems }) {
+  const { search, films, serietv } = useFilms();
 
-  //   const apiParams = { api_key: apiKey, query };
+  const [searchfilms, setSearchFilms] = useState("");
+  // const [films, setFilms] = useState([]);
+  // const [serietv, setSerietv] = useState([]);
+  // const [all, setAll] = useState([]);
+
+  // const apiUrl = "https://api.themoviedb.org/3";
+  // const query = searchfilms;
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    search(searchfilms);
   };
 
   const handleInputChange = (e) => {
     setSearchFilms(e.target.value);
   };
-  useEffect(() => {
-    axios
-      .get(
-        `${apiUrl}/search/movie?api_key=c91cda683436ff534f3d600980a32b8a&language=it_IT&query=${searchfilms}`
-      )
-      .then((res) => {
-        const filmSearch = res.data.results;
-        const newFilms = filmSearch.map((film) => ({
-          type: "Film",
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `${apiUrl}/search/movie?api_key=c91cda683436ff534f3d600980a32b8a&query=${searchfilms}&language=it-IT`
+  //     )
+  //     .then((res) => {
+  //       const filmSearch = res.data.results;
+  //       const newFilms = filmSearch.map((film) => ({
+  //         type: "Film",
+  //         id: film.id,
+  //         title: film.title,
+  //         original_title: film.original_title,
+  //         original_language: film.original_language,
+  //         vote_average: Math.floor(film.vote_average),
+  //       }));
+  //       setFilms(newFilms);
+  //     });
 
-          title: film.title,
-          original_title: film.original_title,
-          original_language: film.original_language,
-          vote_average: film.vote_average,
-        }));
-        setFilms(newFilms);
-      });
+  //   axios
+  //     .get(
+  //       `${apiUrl}/search/tv?api_key=c91cda683436ff534f3d600980a32b8a&query=${searchfilms}&language=it-IT`
+  //     )
+  //     .then((res) => {
+  //       const SerieSearch = res.data.results;
 
-    axios
-      .get(
-        `${apiUrl}/search/tv?api_key=c91cda683436ff534f3d600980a32b8a&language=it_IT&query=${searchfilms}`
-      )
-      .then((res) => {
-        const SerieSearch = res.data.results;
-
-        const newSeries = SerieSearch.map((serie) => ({
-          type: "serieTv",
-          title: serie.name,
-          original_title: serie.original_name,
-          original_language: serie.original_language,
-          vote_average: serie.vote_average,
-        }));
-        setSerietv(newSeries);
-      });
-    const allItems = [...films, ...serietv];
-    setAll(allItems);
-    console.log("all", allItems);
-  }, [searchfilms]);
+  //       const newSeries = SerieSearch.map((serie) => ({
+  //         type: "serieTv",
+  //         id: serie.id,
+  //         title: serie.name,
+  //         original_title: serie.original_name,
+  //         original_language: serie.original_language,
+  //         vote_average: Math.floor(serie.vote_average),
+  //       }));
+  //       setSerietv(newSeries);
+  //     });
+  //   const allItems = [...films, ...serietv];
+  //   setAll(allItems);
+  //   console.log("all", allItems);
+  // }, [searchfilms]);
 
   return (
     <>
       <form onSubmit={handleFormSubmit}>
         <input
           className="input "
-          name={searchfilms}
-          value={films.title}
+          value={searchfilms}
           onChange={handleInputChange}
           type="text"
           placeholder="Cerca il film"
         ></input>
         <button>Cerca</button>
       </form>
-      {all.map((film) => (
-        <div>
-          <h2>{film.title}</h2>
-          <p>{film.original_title}</p>
-          <p>{film.original_language}</p>
-          <p>{film.vote_average}</p>
-          <p>{film.type}</p>
+      {films.map((item) => (
+        <div key={item.id}>
+          <h2>{item.title}</h2>
+          <p>{item.original_title}</p>
+          <p>{item.original_language}</p>
+          <p>{item.vote_average}</p>
+          <p>{item.type}</p>
         </div>
       ))}
     </>
   );
 }
+// export { searchfilms };
