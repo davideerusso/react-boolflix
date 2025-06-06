@@ -1,4 +1,15 @@
 export default function FilmCard({ films, serietv }) {
+  const totalStars = 5;
+  const renderStars = (rating) => {
+    const filledStars = rating;
+    return (
+      <>
+        {[...Array(totalStars)].map((_, index) => (
+          <span key={index}>{index < filledStars ? "★" : "☆"}</span>
+        ))}
+      </>
+    );
+  };
   return (
     <>
       <div>
@@ -10,7 +21,7 @@ export default function FilmCard({ films, serietv }) {
             <h2>{item.title}</h2>
             <p>{item.original_title}</p>
             <img src={item.original_language} />
-            <p>{item.vote_average}</p>
+            <div>{renderStars(item.vote_average)}</div>
             <p>{item.type}</p>
           </div>
         ))}
@@ -20,11 +31,10 @@ export default function FilmCard({ films, serietv }) {
         {serietv.map((itemtv) => (
           <div key={itemtv.id}>
             <img src={itemtv.image} />
-
             <h2>{itemtv.title}</h2>
             <p>{itemtv.original_title}</p>
             <img src={itemtv.original_language} />
-            <p>{itemtv.vote_average}</p>
+            <div>{renderStars(itemtv.vote_average)}</div>
             <p>{itemtv.type}</p>
           </div>
         ))}

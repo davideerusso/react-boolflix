@@ -40,7 +40,7 @@ function SearchProvider({ children }) {
           title: film.title,
           original_title: film.original_title,
           original_language: getFlag(film.original_language),
-          vote_average: Math.floor(film.vote_average),
+          vote_average: Math.floor(film.vote_average * 0.5 + 1),
         }));
         setFilms(newFilms);
       });
@@ -60,7 +60,7 @@ function SearchProvider({ children }) {
           title: serie.name,
           original_title: serie.original_name,
           original_language: getFlag(serie.original_language),
-          vote_average: Math.floor(serie.vote_average),
+          vote_average: Math.floor(serie.vote_average * 0.5 + 1),
         }));
         setSerietv(newSeries);
         console.log(serietv);
