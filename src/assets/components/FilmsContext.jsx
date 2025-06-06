@@ -1,6 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
-// import itFlag from
+import gbFlag from "../img/gb.png";
+import itFlag from "../img/it.png";
+import usFlag from "../img/us.png";
+import frFlag from "../img/fr.png";
+import jpFlag from "../img/jp.png";
+
+import unknownFlag from "../img/so.png";
 
 const apiUrl = "https://api.themoviedb.org/3";
 
@@ -11,6 +17,15 @@ function SearchProvider({ children }) {
   const [serietv, setSerietv] = useState([]);
   // const [allItems, setAllItems] = useState([]);
 
+  const getFlag = (lang) => {
+    if (lang === "en") return gbFlag;
+    if (lang === "it") return itFlag;
+    if (lang === "us") return usFlag;
+    if (lang === "fr") return frFlag;
+    if (lang === "jp") return jpFlag;
+    else return unknownFlag;
+  };
+
   const search = (query) => {
     axios
       .get(
@@ -20,10 +35,11 @@ function SearchProvider({ children }) {
         const filmSearch = res.data.results;
         const newFilms = filmSearch.map((film) => ({
           type: "Film",
+          image: "https://image.tmdb.org/t/p/w342" + film.poster_path,
           id: film.id,
           title: film.title,
           original_title: film.original_title,
-          original_language: film.original_language,
+          original_language: getFlag(film.original_language),
           vote_average: Math.floor(film.vote_average),
         }));
         setFilms(newFilms);
@@ -38,13 +54,16 @@ function SearchProvider({ children }) {
 
         const newSeries = SerieSearch.map((serie) => ({
           type: "serieTv",
+          image: "https://image.tmdb.org/t/p/w342" + serie.poster_path,
+
           id: serie.id,
           title: serie.name,
           original_title: serie.original_name,
-          original_language: serie.original_language,
+          original_language: getFlag(serie.original_language),
           vote_average: Math.floor(serie.vote_average),
         }));
         setSerietv(newSeries);
+        console.log(serietv);
       });
   };
   const searchData = { search, films, serietv };
