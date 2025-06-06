@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useFilms } from "./FilmsContext";
-
+import NetflixLogo from "../img/Netflix.png";
 // import axios from "axios";
 
 export default function SearchBar({ allItems }) {
@@ -26,7 +26,7 @@ export default function SearchBar({ allItems }) {
   return (
     <>
       <div className="navabar">
-        <img src="../img/Netflix.png" />
+        <img className="logo" src={NetflixLogo}></img>
         <form onSubmit={handleFormSubmit}>
           <input
             className="input "
@@ -41,4 +41,3 @@ export default function SearchBar({ allItems }) {
     </>
   );
 }
-// export { searchfilms };
