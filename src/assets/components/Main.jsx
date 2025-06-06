@@ -1,3 +1,4 @@
+import FilmList from "./FilmList";
 export default function Main() {
-  return;
+  return <FilmList></FilmList>;
 }

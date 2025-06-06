@@ -74,15 +74,6 @@ export default function SearchBar({ allItems }) {
         ></input>
         <button>Cerca</button>
       </form>
-      {films.map((item) => (
-        <div key={item.id}>
-          <h2>{item.title}</h2>
-          <p>{item.original_title}</p>
-          <p>{item.original_language}</p>
-          <p>{item.vote_average}</p>
-          <p>{item.type}</p>
-        </div>
-      ))}
     </>
   );
 }
